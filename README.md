@@ -8,21 +8,6 @@ Hệ thống quản lý đặt lịch dịch vụ (salon/spa) — bài kiểm tr
 - **Realtime**: SignalR — cập nhật booking tức thời, không cần F5
 - **Background job**: Hangfire — tự động xử lý booking quá hạn
 
-## Mục lục
-
-- [Yêu cầu môi trường](#yêu-cầu-môi-trường)
-- [Cách chạy](#cách-chạy)
-- [Tài khoản demo](#tài-khoản-demo)
-- [Unit test](#unit-test)
-- [Postman Collection / Swagger](#postman-collection--swagger)
-- [SignalR — cập nhật booking real-time](#signalr--cập-nhật-booking-real-time)
-- [Hangfire — tự động xử lý booking quá hạn](#hangfire--tự-động-xử-lý-booking-quá-hạn)
-- [Danh sách chức năng đã hoàn thành](#danh-sách-chức-năng-đã-hoàn-thành)
-- [Cấu trúc thư mục](#cấu-trúc-thư-mục)
-- [Push code lên GitHub](#push-code-lên-github)
-
----
-
 ## Yêu cầu môi trường
 
 | Công cụ | Version tối thiểu | Dùng cho |
@@ -225,7 +210,6 @@ ServiceBookingSystem/
 └── README.md
 ```
 
-Tài liệu chi tiết hơn (giải thích từng file, hướng dẫn kiểm thử) nằm ở các file đi kèm ngoài repo này: `01_Tai_Lieu_Cau_Truc_Du_An.md`, `02_Huong_Dan_Kiem_Thu_Swagger.md`, `03_Kiem_Thu_UI_Ngay3_Ngay4.md`, `04_Huong_Dan_Ban_Giao.md`.
 
 ---
 
