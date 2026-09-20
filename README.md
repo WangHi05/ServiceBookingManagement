@@ -229,21 +229,4 @@ Tài liệu chi tiết hơn (giải thích từng file, hướng dẫn kiểm th
 
 ---
 
-## Push code lên GitHub
 
-```bash
-cd ServiceBookingSystem
-git init
-git add .
-git commit -m "Service Booking Management System - full stack intern demo"
-git branch -M main
-git remote add origin https://github.com/<username>/<repo-name>.git
-git push -u origin main
-```
-
-Sau khi push, vào Settings của repo trên GitHub → đổi **Visibility thành Public** nếu repo đang ở chế độ Private (Settings → General → cuộn xuống "Danger Zone" → "Change visibility").
-
-**Trước khi push, kiểm tra lại:**
-- `backend/ServiceBooking.API/appsettings.json` không chứa secret thật (giá trị hiện tại chỉ là key demo cho môi trường dev, không phải secret production)
-- `frontend/.env.local` **không** được commit (đã có trong `.gitignore`) — chỉ commit `.env.local.example`
-- Thư mục `backend/ServiceBooking.API/Migrations` **phải** được commit (không nằm trong `.gitignore`) — nếu không, người khác clone về sẽ không tạo được database
