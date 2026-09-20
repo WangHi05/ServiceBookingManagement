@@ -98,11 +98,6 @@ export function LoginForm() {
           </button>
         </form>
 
-        <div className="mt-6 rounded-md border border-stone-200 bg-white p-4 text-xs text-ink-light">
-          <p className="font-medium text-ink">Tài khoản demo</p>
-          <p className="mt-1">Customer: customer1@bookingdemo.com / Customer@123</p>
-          <p>Admin: admin@bookingdemo.com / Admin@123</p>
-        </div>
       </div>
     </div>
   );
