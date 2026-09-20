@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{baseUrl}}/bookings/{{bookingId}}/status"
+method: PATCH
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{adminToken}}
+body:
+  type: text
+  content: |-
+    {
+      "status": "Completed"
+    }
+order: 6000

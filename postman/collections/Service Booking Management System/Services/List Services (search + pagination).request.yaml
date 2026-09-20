@@ -1,0 +1,11 @@
+$kind: http-request
+url: "{{baseUrl}}/services?search=&isActive=true&pageNumber=1&pageSize=10"
+method: GET
+headers:
+  Authorization: Bearer {{customerToken}}
+queryParams:
+  search: ""
+  isActive: "true"
+  pageNumber: "1"
+  pageSize: "10"
+order: 1000

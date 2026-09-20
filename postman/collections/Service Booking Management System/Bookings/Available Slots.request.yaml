@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{baseUrl}}/bookings/available-slots?serviceId={{serviceId}}&date=2026-09-25&staffId={{staffId}}"
+method: GET
+headers:
+  Authorization: Bearer {{customerToken}}
+queryParams:
+  serviceId: "{{serviceId}}"
+  date: 2026-09-25
+  staffId: "{{staffId}}"
+order: 1000

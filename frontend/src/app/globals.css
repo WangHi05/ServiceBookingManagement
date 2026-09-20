@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    @apply scroll-smooth;
+  }
+
+  body {
+    @apply bg-stone-50 text-ink font-sans antialiased;
+  }
+
+  h1, h2, h3 {
+    @apply font-display;
+  }
+
+  /* Focus ring nhất quán, rõ ràng cho điều hướng bàn phím */
+  :focus-visible {
+    @apply outline-none ring-2 ring-sage-500 ring-offset-2 ring-offset-stone-50;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center rounded-md bg-sage-600 px-4 py-2.5
+           text-sm font-medium text-white transition-colors hover:bg-sage-700
+           disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center rounded-md border border-stone-200
+           bg-white px-4 py-2.5 text-sm font-medium text-ink transition-colors
+           hover:bg-stone-100 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-danger {
+    @apply inline-flex items-center justify-center rounded-md bg-rose-500 px-4 py-2.5
+           text-sm font-medium text-white transition-colors hover:opacity-90
+           disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .input-field {
+    @apply w-full rounded-md border border-stone-200 bg-white px-3.5 py-2.5 text-sm
+           text-ink placeholder:text-ink-light/50 transition-colors
+           focus:border-sage-500;
+  }
+
+  .card {
+    @apply border border-stone-200 bg-white;
+  }
+}

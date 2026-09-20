@@ -1,0 +1,18 @@
+$kind: http-request
+name: Update Service / Khóa-Mở khóa (Admin)
+url: "{{baseUrl}}/services/{{serviceId}}"
+method: PUT
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{adminToken}}
+body:
+  type: text
+  content: |-
+    {
+      "name": "Cắt tóc nam",
+      "description": "Cắt gọn gàng, tạo kiểu cơ bản",
+      "durationMinutes": 30,
+      "price": 100000,
+      "isActive": true
+    }
+order: 4000

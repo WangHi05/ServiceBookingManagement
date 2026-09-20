@@ -1,0 +1,14 @@
+$kind: http-request
+url: "{{baseUrl}}/staffs"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{adminToken}}
+body:
+  type: text
+  content: |-
+    {
+      "fullName": "Hoang Van C",
+      "email": "staff3@bookingdemo.com"
+    }
+order: 3000

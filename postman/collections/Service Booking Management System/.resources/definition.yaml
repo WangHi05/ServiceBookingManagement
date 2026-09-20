@@ -1,0 +1,9 @@
+$kind: collection
+description: Toàn bộ API backend (Auth, Services, Staffs, Bookings). Chạy 'Login - Admin' và 'Login - Customer' trước để tự động lưu token vào collection variables (customerToken/adminToken), các request khác sẽ tự dùng token tương ứng.
+variables:
+  baseUrl: http://localhost:5000/api
+  customerToken: ""
+  adminToken: ""
+  bookingId: ""
+  serviceId: "1"
+  staffId: "1"

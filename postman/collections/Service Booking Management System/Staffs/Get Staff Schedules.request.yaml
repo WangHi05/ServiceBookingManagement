@@ -1,0 +1,9 @@
+$kind: http-request
+url: "{{baseUrl}}/staffs/{{staffId}}/schedules?fromDate=2026-09-15&toDate=2026-09-21"
+method: GET
+headers:
+  Authorization: Bearer {{customerToken}}
+queryParams:
+  fromDate: 2026-09-15
+  toDate: 2026-09-21
+order: 5000

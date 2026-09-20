@@ -1,0 +1,341 @@
+{
+  "info": {
+    "name": "Service Booking Management System",
+    "description": "Toàn bộ API backend (Auth, Services, Staffs, Bookings). Chạy 'Login - Admin' và 'Login - Customer' trước để tự động lưu token vào collection variables (customerToken/adminToken), các request khác sẽ tự dùng token tương ứng.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    { "key": "baseUrl", "value": "http://localhost:5000/api" },
+    { "key": "customerToken", "value": "" },
+    { "key": "adminToken", "value": "" },
+    { "key": "bookingId", "value": "" },
+    { "key": "serviceId", "value": "1" },
+    { "key": "staffId", "value": "1" }
+  ],
+  "item": [
+    {
+      "name": "Auth",
+      "item": [
+        {
+          "name": "Login - Admin",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"admin@bookingdemo.com\",\n  \"password\": \"Admin@123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "if (json.success) { pm.collectionVariables.set('adminToken', json.data.accessToken); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Login - Customer",
+          "request": {
+            "method": "POST",
+            "header": [{ "key": "Content-Type", "value": "application/json" }],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"customer1@bookingdemo.com\",\n  \"password\": \"Customer@123\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/auth/login", "host": ["{{baseUrl}}"], "path": ["auth", "login"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+                  "const json = pm.response.json();",
+                  "if (json.success) { pm.collectionVariables.set('customerToken', json.data.accessToken); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Get Current User (Me)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{customerToken}}" }],
+            "url": { "raw": "{{baseUrl}}/auth/me", "host": ["{{baseUrl}}"], "path": ["auth", "me"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Services",
+      "item": [
+        {
+          "name": "List Services (search + pagination)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{customerToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/services?search=&isActive=true&pageNumber=1&pageSize=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["services"],
+              "query": [
+                { "key": "search", "value": "" },
+                { "key": "isActive", "value": "true" },
+                { "key": "pageNumber", "value": "1" },
+                { "key": "pageSize", "value": "10" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Get Service By Id",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{customerToken}}" }],
+            "url": { "raw": "{{baseUrl}}/services/{{serviceId}}", "host": ["{{baseUrl}}"], "path": ["services", "{{serviceId}}"] }
+          }
+        },
+        {
+          "name": "Create Service (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Tẩy trang chuyên sâu\",\n  \"description\": \"Làm sạch sâu, phù hợp da dầu\",\n  \"durationMinutes\": 40,\n  \"price\": 180000\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/services", "host": ["{{baseUrl}}"], "path": ["services"] }
+          }
+        },
+        {
+          "name": "Update Service / Khóa-Mở khóa (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"name\": \"Cắt tóc nam\",\n  \"description\": \"Cắt gọn gàng, tạo kiểu cơ bản\",\n  \"durationMinutes\": 30,\n  \"price\": 100000,\n  \"isActive\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/services/{{serviceId}}", "host": ["{{baseUrl}}"], "path": ["services", "{{serviceId}}"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Staffs",
+      "item": [
+        {
+          "name": "List Staffs",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{customerToken}}" }],
+            "url": { "raw": "{{baseUrl}}/staffs", "host": ["{{baseUrl}}"], "path": ["staffs"] }
+          }
+        },
+        {
+          "name": "Get Staff By Id",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{customerToken}}" }],
+            "url": { "raw": "{{baseUrl}}/staffs/{{staffId}}", "host": ["{{baseUrl}}"], "path": ["staffs", "{{staffId}}"] }
+          }
+        },
+        {
+          "name": "Create Staff (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Hoang Van C\",\n  \"email\": \"staff3@bookingdemo.com\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/staffs", "host": ["{{baseUrl}}"], "path": ["staffs"] }
+          }
+        },
+        {
+          "name": "Update Staff / Khóa-Mở khóa (Admin)",
+          "request": {
+            "method": "PUT",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"fullName\": \"Le Van Staff\",\n  \"email\": \"staff1@bookingdemo.com\",\n  \"isActive\": true\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/staffs/{{staffId}}", "host": ["{{baseUrl}}"], "path": ["staffs", "{{staffId}}"] }
+          }
+        },
+        {
+          "name": "Get Staff Schedules",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{customerToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/staffs/{{staffId}}/schedules?fromDate=2026-09-15&toDate=2026-09-21",
+              "host": ["{{baseUrl}}"],
+              "path": ["staffs", "{{staffId}}", "schedules"],
+              "query": [
+                { "key": "fromDate", "value": "2026-09-15" },
+                { "key": "toDate", "value": "2026-09-21" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Staff Schedule (Admin)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"workDate\": \"2026-09-25\",\n  \"startTime\": \"08:00:00\",\n  \"endTime\": \"17:00:00\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/staffs/{{staffId}}/schedules", "host": ["{{baseUrl}}"], "path": ["staffs", "{{staffId}}", "schedules"] }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Bookings",
+      "item": [
+        {
+          "name": "Available Slots",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{customerToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/bookings/available-slots?serviceId={{serviceId}}&date=2026-09-25&staffId={{staffId}}",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "available-slots"],
+              "query": [
+                { "key": "serviceId", "value": "{{serviceId}}" },
+                { "key": "date", "value": "2026-09-25" },
+                { "key": "staffId", "value": "{{staffId}}" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Create Booking (Customer)",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{customerToken}}" }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"serviceId\": {{serviceId}},\n  \"staffId\": {{staffId}},\n  \"startTime\": \"2026-09-25T09:00:00\",\n  \"customerNote\": \"Tạo từ Postman\"\n}"
+            },
+            "url": { "raw": "{{baseUrl}}/bookings", "host": ["{{baseUrl}}"], "path": ["bookings"] }
+          },
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "const json = pm.response.json();",
+                  "if (json.success) { pm.collectionVariables.set('bookingId', json.data.id); }"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "My Bookings (Customer)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{customerToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/bookings/my-bookings?status=&pageNumber=1&pageSize=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings", "my-bookings"],
+              "query": [
+                { "key": "status", "value": "" },
+                { "key": "pageNumber", "value": "1" },
+                { "key": "pageSize", "value": "10" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "All Bookings (Admin)",
+          "request": {
+            "method": "GET",
+            "header": [{ "key": "Authorization", "value": "Bearer {{adminToken}}" }],
+            "url": {
+              "raw": "{{baseUrl}}/bookings?status=&fromDate=&toDate=&pageNumber=1&pageSize=10",
+              "host": ["{{baseUrl}}"],
+              "path": ["bookings"],
+              "query": [
+                { "key": "status", "value": "" },
+                { "key": "fromDate", "value": "" },
+                { "key": "toDate", "value": "" },
+                { "key": "pageNumber", "value": "1" },
+                { "key": "pageSize", "value": "10" }
+              ]
+            }
+          }
+        },
+        {
+          "name": "Update Booking Status - Confirm (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"Confirmed\"\n}" },
+            "url": { "raw": "{{baseUrl}}/bookings/{{bookingId}}/status", "host": ["{{baseUrl}}"], "path": ["bookings", "{{bookingId}}", "status"] }
+          }
+        },
+        {
+          "name": "Update Booking Status - Complete (Admin)",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{adminToken}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"status\": \"Completed\"\n}" },
+            "url": { "raw": "{{baseUrl}}/bookings/{{bookingId}}/status", "host": ["{{baseUrl}}"], "path": ["bookings", "{{bookingId}}", "status"] }
+          }
+        },
+        {
+          "name": "Cancel Booking",
+          "request": {
+            "method": "POST",
+            "header": [
+              { "key": "Content-Type", "value": "application/json" },
+              { "key": "Authorization", "value": "Bearer {{customerToken}}" }
+            ],
+            "body": { "mode": "raw", "raw": "{\n  \"reason\": \"Đổi lịch cá nhân\"\n}" },
+            "url": { "raw": "{{baseUrl}}/bookings/{{bookingId}}/cancel", "host": ["{{baseUrl}}"], "path": ["bookings", "{{bookingId}}", "cancel"] }
+          }
+        }
+      ]
+    }
+  ]
+}

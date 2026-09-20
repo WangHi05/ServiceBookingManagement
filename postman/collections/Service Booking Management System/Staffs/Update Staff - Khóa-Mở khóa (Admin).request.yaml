@@ -1,0 +1,16 @@
+$kind: http-request
+name: Update Staff / Khóa-Mở khóa (Admin)
+url: "{{baseUrl}}/staffs/{{staffId}}"
+method: PUT
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{adminToken}}
+body:
+  type: text
+  content: |-
+    {
+      "fullName": "Le Van Staff",
+      "email": "staff1@bookingdemo.com",
+      "isActive": true
+    }
+order: 4000

@@ -1,0 +1,22 @@
+$kind: http-request
+url: "{{baseUrl}}/bookings"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{customerToken}}
+body:
+  type: text
+  content: |-
+    {
+      "serviceId": {{serviceId}},
+      "staffId": {{staffId}},
+      "startTime": "2026-09-25T09:00:00",
+      "customerNote": "Tạo từ Postman"
+    }
+scripts:
+  - type: afterResponse
+    code: |-
+      const json = pm.response.json();
+      if (json.success) { pm.collectionVariables.set('bookingId', json.data.id); }
+    language: text/javascript
+order: 2000

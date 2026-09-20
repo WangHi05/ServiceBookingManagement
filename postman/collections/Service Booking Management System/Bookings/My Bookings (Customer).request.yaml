@@ -1,0 +1,10 @@
+$kind: http-request
+url: "{{baseUrl}}/bookings/my-bookings?status=&pageNumber=1&pageSize=10"
+method: GET
+headers:
+  Authorization: Bearer {{customerToken}}
+queryParams:
+  status: ""
+  pageNumber: "1"
+  pageSize: "10"
+order: 3000

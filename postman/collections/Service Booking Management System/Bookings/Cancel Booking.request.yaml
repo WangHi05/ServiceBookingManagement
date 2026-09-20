@@ -1,0 +1,13 @@
+$kind: http-request
+url: "{{baseUrl}}/bookings/{{bookingId}}/cancel"
+method: POST
+headers:
+  Content-Type: application/json
+  Authorization: Bearer {{customerToken}}
+body:
+  type: text
+  content: |-
+    {
+      "reason": "Đổi lịch cá nhân"
+    }
+order: 7000
